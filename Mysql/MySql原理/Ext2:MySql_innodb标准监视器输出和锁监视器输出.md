@@ -1,4 +1,4 @@
-```log
+```
     mysql> SHOW ENGINE INNODB STATUS\G
     *************************** 1. row ***************************
     Type: InnoDB
@@ -198,7 +198,7 @@
 监视器输出部分信息：
 
 ### `Status`:当前部分显示时间戳，监视器名称和本次统计信息的实效数据
->```aidl
+>```
 >    Status:
 >    =====================================
 >    2018-04-12 15:14:08 0x7f971c063700 INNODB MONITOR OUTPUT
@@ -209,7 +209,7 @@
 >>代表当统计的数据是时间戳前四秒的数据
 
 ### `BACKGROUND THREAD`:显示后台主线程的活动记录
->```aidl
+>```
 >   BACKGROUND THREAD
 >   -----------------
 >   srv_master_thread loops: 15 srv_active, 0 srv_shutdown, 1122 srv_idle
@@ -224,7 +224,7 @@
 >> `srv_master_thread log flush and writes`：主线程日志刷新和写入次数
 
 ### `SEMAPHORES`:信号量相关的统计信息
->```aidl
+>```
 >    ----------
 >    SEMAPHORES
 >    ----------
@@ -250,7 +250,7 @@
 >InnoDB有一个多阶段等待策略，如果没有获得锁，其首先就进行spins，并且在自旋一定周期后会进行轮询，如果轮询一定几次之后依旧没有获得锁，就会进入到系统等待队列中进行等待。
 
 ### `TRANSACTIONS`:当前活跃事务列表
->```aidl
+>```
 >    Trx id counter 7748
 >    Purge done for trx's n:o < 7747 undo n:o < 0 state: running but idle
 >    History list length 19
@@ -280,6 +280,5 @@
 >    1: len 6; hex 000000001e41; asc      A;;
 >    2: len 7; hex 820000008b0110; asc        ;;
 >    3: len 4; hex 80000001; asc     ;;
->
->``
+>```
 >
