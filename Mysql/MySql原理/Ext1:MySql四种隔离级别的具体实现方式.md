@@ -85,7 +85,8 @@ InnoDB实现了以下两类型的行锁：
 |s_1| `set autocommit= 0;` | `set autocommit= 0;`|
 |r_1|```Query OK, 0 rows affected (0.00 sec)```|```Query OK, 0 rows affected (0.00 sec) ```|```0-0-0-0-0 ```|
 |s_2|``select * from Orders where order_num=20005\G;``|`select * from Orders where order_num=20005\G;`|`0-0-0-0-0`|
-|r_2|*************************** 1. row *************************** </br> order_num: 20005 </br>order_date: 2012-05-01 00:00:00</br>cust_id: 1000000001</br>1 row in set (0.01 sec)|*************************** 1. row ***************************</br> order_num: 20005</br>order_date:</br>2012-05-01 00:00:00</br>cust_id: 1000000001</br>1 row in set (0.00 sec)|`0-0-0-0-0`|
+|r_2| 1. row  </br> order_num: 20005 </br>order_date: 2012-05-01 00:00:00</br>cust_id: 1000000001</br>1 row in set (0.01 sec)| 1. row </br> order_num: 20005</br>order_date:</br>2012-05-01 00:00:00</br>cust_id: 1000000001</br>1 row in set (0.00 sec)|`0-0-0-0-0`|
 |s_3|对当前session添加共享锁</br>`select * from Orders where order_num=20005 lock in share mode\G;`||`0-0-0-0-0`|
-|r_3|*************************** 1. row *************************** </br> order_num: 20005 </br>order_date: 2012-05-01 00:00:00</br>cust_id: 1000000001</br>1 row in set (0.01 sec)|||
-|s_4||对当前session添加共享锁</br>`select * from Orders where order_num=20005 lock in share mode\G;`|
+|r_3| 1. row  </br> order_num: 20005 </br>order_date: 2012-05-01 00:00:00</br>cust_id: 1000000001</br>1 row in set (0.01 sec)|||
+|s_4||对当前session添加共享锁</br>`select * from Orders where order_num=20005 lock in share mode\G;`|`0-0-0-0-0`|
+|r_4|| 1. row  </br> order_num: 20005 </br>order_date: 2012-05-01 00:00:00</br>cust_id: 1000000001</br>1 row in set (0.01 sec)|
