@@ -57,7 +57,7 @@ InnoDB实现了以下两类型的行锁：
 * 共享锁(S)：允许一个事务去读一行，阻止其他事务获得相同数据集的排他锁
 * 排他锁(X): 允许获得排他锁的事务更新数据，阻止其他事务获得相同数据集的共享锁和排他锁
 
-另外，为了允许行锁和表锁共存，实现多粒度锁机制，InnoDB还实现了两种内部使用的意向锁，这两种意向锁都是表锁：
+另外，为了允许行锁和表锁共存，实现多粒度锁机制，InnoDB还实现了两种内部使用的[意向锁](../MySql原理/Ext3:InnoDB中的意向锁.md)，这两种意向锁都是表锁：
 * 意向共享锁(IS):如果事务打算给数据行添加共享锁，其必须先获得该表的IS锁
 * 意向排他锁(IX):如果事务打算给数据行添加排他锁，其必须先获得该表的IX锁
 
@@ -77,3 +77,15 @@ InnoDB实现了以下两类型的行锁：
 * 共享锁(S): `SELECT * FROM table_name WHERE ... LOCK IN SHARP MODE`;
 * 排他锁(X): `SELECT * FROM table_name WHERE ... FOR UPDATE`;
 
+表Ext-3 InnoDB共享锁例子
+
+
+|时间线|SESSION_A|SESSION_B|`show status like 'innodb_row_lock%'`|
+|:-:|---|---|:-:|
+|s_1| `set autocommit= 0;` | `set autocommit= 0;`|
+|r_1|```Query OK, 0 rows affected (0.00 sec)```|```Query OK, 0 rows affected (0.00 sec) ```|```0-0-0-0-0 ```|
+|s_2|``select * from Orders where order_num=20005\G;``|`select * from Orders where order_num=20005\G;`|`0-0-0-0-0`|
+|r_2|*************************** 1. row *************************** </br> order_num: 20005 </br>order_date: 2012-05-01 00:00:00</br>cust_id: 1000000001</br>1 row in set (0.01 sec)|*************************** 1. row ***************************</br> order_num: 20005</br>order_date:</br>2012-05-01 00:00:00</br>cust_id: 1000000001</br>1 row in set (0.00 sec)|`0-0-0-0-0`|
+|s_3|对当前session添加共享锁</br>`select * from Orders where order_num=20005 lock in share mode\G;`||`0-0-0-0-0`|
+|r_3|*************************** 1. row *************************** </br> order_num: 20005 </br>order_date: 2012-05-01 00:00:00</br>cust_id: 1000000001</br>1 row in set (0.01 sec)|||
+|s_4||对当前session添加共享锁</br>`select * from Orders where order_num=20005 lock in share mode\G;`|
