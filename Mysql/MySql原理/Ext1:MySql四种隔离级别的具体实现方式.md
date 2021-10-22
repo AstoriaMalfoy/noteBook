@@ -18,7 +18,7 @@
 可以通过检查InnoDB_row_lock状态变量来分析系统上行锁的争夺情况
 
 `show status like 'innodb_row_lock%';`
-```aidl
+```
     +-------------------------------+-------+
     | Variable_name                 | Value |
     +-------------------------------+-------+
