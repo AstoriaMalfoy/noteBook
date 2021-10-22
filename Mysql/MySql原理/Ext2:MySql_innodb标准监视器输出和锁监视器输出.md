@@ -281,4 +281,6 @@
 >    2: len 7; hex 820000008b0110; asc        ;;
 >    3: len 4; hex 80000001; asc     ;;
 >```
->
+>> `Trx id counter`：事务ID，随着事务的新增自增
+> 
+>> `Purge done for trx's n:o < 7747 undo n:o < 0 state: running but idle`:

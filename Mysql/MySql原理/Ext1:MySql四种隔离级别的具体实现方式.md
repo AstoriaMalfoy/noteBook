@@ -30,6 +30,16 @@
     +-------------------------------+-------+
 ```
 
+> `Innodb_row_lock_current_waits`       :表示当前正在等待锁的数量
+> 
+> `Innodb_row_lock_time`                :从系统启动到现在总的锁定时间
+> 
+> `Innodb_row_lock_time_avg`            :平均等待锁的时常
+> 
+> `Innodb_row_lock_time_max`            :从系统启动到现在最长的一次等待锁的时常
+> 
+> `Innodb_row_lock_waits`               :从系统启动到现在等待的次数
+
 可以通过InnoDB Monitors 来进一步观察发生的锁冲突的表，数据行等，并分析锁争用的原因：
 
 `CREATE TABLE innodb_monitor(a INT)
@@ -67,4 +77,3 @@ InnoDB实现了以下两类型的行锁：
 * 共享锁(S): `SELECT * FROM table_name WHERE ... LOCK IN SHARP MODE`;
 * 排他锁(X): `SELECT * FROM table_name WHERE ... FOR UPDATE`;
 
-使用
