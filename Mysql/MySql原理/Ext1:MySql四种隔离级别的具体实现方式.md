@@ -77,16 +77,31 @@ InnoDB实现了以下两类型的行锁：
 * 共享锁(S): `SELECT * FROM table_name WHERE ... LOCK IN SHARP MODE`;
 * 排他锁(X): `SELECT * FROM table_name WHERE ... FOR UPDATE`;
 
-表Ext-3 InnoDB共享锁例子
+## 四种隔离级别的实现方式
+### 读未提交
+在MySQL中，实现并发访问数据而不出现并发问题的方法是通过加锁来实现的，而在读未提交事务隔离级别下，MySQL将不会对任何并发操作添加锁。因为没有了加锁带来的性能开销，其效率是最高的，但是在并发事务环境下，该隔离级别对数据安全性毫无保证，在使用的时候需要进行详细的调研测试。
 
+使用指令：
+``` sql 
+set global transaction isolation level read uncommitted;
+```
 
-|时间线|SESSION_A|SESSION_B|`show status like 'innodb_row_lock%'`|
-|:-:|---|---|:-:|
-|s_1| `set autocommit= 0;` | `set autocommit= 0;`|
-|r_1|```Query OK, 0 rows affected (0.00 sec)```|```Query OK, 0 rows affected (0.00 sec) ```|```0-0-0-0-0 ```|
-|s_2|``select * from Orders where order_num=20005\G;``|`select * from Orders where order_num=20005\G;`|`0-0-0-0-0`|
-|r_2| 1. row  </br> order_num: 20005 </br>order_date: 2012-05-01 00:00:00</br>cust_id: 1000000001</br>1 row in set (0.01 sec)| 1. row </br> order_num: 20005</br>order_date:</br>2012-05-01 00:00:00</br>cust_id: 1000000001</br>1 row in set (0.00 sec)|`0-0-0-0-0`|
-|s_3|对当前session添加共享锁</br>`select * from Orders where order_num=20005 lock in share mode\G;`||`0-0-0-0-0`|
-|r_3| 1. row  </br> order_num: 20005 </br>order_date: 2012-05-01 00:00:00</br>cust_id: 1000000001</br>1 row in set (0.01 sec)|||
-|s_4||对当前session添加共享锁</br>`select * from Orders where order_num=20005 lock in share mode\G;`|`0-0-0-0-0`|
-|r_4|| 1. row  </br> order_num: 20005 </br>order_date: 2012-05-01 00:00:00</br>cust_id: 1000000001</br>1 row in set (0.01 sec)|
+设置全局的隔离级别为读未提交，并且设置完成之后需要重新启动session才能生效
+
+由于读未提交隔离级别在事务访问的时候不添加任何锁，那么如果sessionA在进行修改之后，提交之前，session_B读取了session_A刚刚修改的数据是可以读取到的。若此时session_A事务由于提交错误发生了回滚，修改撤销，但是对于session_B而言，读到的就是session_A错误提交的脏数据，也就是发生了所谓的脏读。
+
+![读未提交](../../imageDir/readUnCommit.png)
+
+### 读已提交
+
+读未提交无法解决脏读的问题，脏读的核心本质是事务能看到其他事务未提交的更改，但是如果我们稍加手段，实现每个事务只能读到其他事务已经提交的数据，那么久解决了脏读的问题，也正是因为如此，读已提交就能够解决脏读的问题。
+
+并且部分DBMS的默认隔离级别就是读已提交，例如oracle，但是mysql并不是这样。
+
+使用指令:
+```SQL
+set global transaction isolation level read committed;
+```
+
+设置全局的隔离界别为读已提交，同样，设置完成之后需要重新启动session才能生效
+
