@@ -68,7 +68,8 @@
 
 > 表结构
 
-```SQL
+``` SQL
+
 -- -----------------------------------------
 -- Sams Teach Yourself SQL in 10 Minutes
 -- http://forta.com/books/0672336073/
