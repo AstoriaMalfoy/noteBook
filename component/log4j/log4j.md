@@ -19,6 +19,45 @@ log4j 主要有以下三个组件
 3: 在Appender中调用 Filter 对日志信息进行过滤,调用Layout对日志信息进行格式化,然后进行输出.
 
 
+## Logger  
+
+logger 可以有选择的启动或者禁止日志的输出 
+
+logger 的获取方式 :
+```java
+private static final Logger log = LoggerFactory.getLogger(xx.class);
+private static final Logger log = LoggerFactory.getLogger("name");
+```
+
+logger 的命名有继承机制,并且所有的logger都会直接或者间接的继承`root`,`root`可以通过`LoggerFactory.getRootLogger()`获取,但是不能通过`LoggerFactory.getLogger("root");`获取.
+
+
+## Level
+
+level为logger服务,用来定义日志的界别,其值可以是:
+* OFF   :   关闭
+* FATAL :   致命的
+* ERROR :   错误的
+* WARN  :   警告
+* INFO  :   信息
+* DEBUG :   调试
+* ALL   :   所有
+
+日志输出的策略由LEVEL决定, 按照从上到下的顺序,当设定某一LEVEL之后,大于等于LEVEL的日志可以输出,而其余的日志则不能输出.
+
+如果当前logger没有设置LEVEL,会按照其继承关系依次向上寻找,直到找到继承链上设置LEVEL的,并按照此LEVEL进行输出.
+
+默认root的LEVEL是INFO,其他logger默认的都是null,需要进行手动指定.
+
+## Appender
+
+Appender用于控制日志的输出地,一个输出源就叫一个appender,appender的类别有:Console(控制台),File(文件),JDBC,JMS等,对logger来说,每个有效的日志请求都将输出到其logger和其父logger的appender上.
+
+* FileAppender 输出到本地文件
+* FlumeAppender 将几个不同源的日志汇集,集中到一处
+* JMSQueueAppender & JMSTopicAppender 与JMS相关的日志输出
+* RewiteAppender 
+
 
 ## 实现自定义Appender
 Appender的生命周期
