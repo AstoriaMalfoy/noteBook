@@ -33,5 +33,22 @@ JMH即Java Microbenchmark Harness , 是对代码进行微基准测试的一套AP
 ```
 
 
+# 注解说明
+## @BenchmarkMode
+基准测试类型
+* Throughput : 整体吞吐量,例如 "1秒内能执行多少次调用"
+* AverageTime : 调用的平均时间,例如"每次调用平均耗时XXX毫秒"
+* SampleTime : 随机取样, 最终输出取样的结果,例如 "99%的调用在XXX毫秒内,99.99%的调用在XXX毫秒内"
+* SingleShotTime : 以上三种默认一次的iterator是1s,唯有SingleShotTime是只运行一次.往往把warmUp设置为0,用于测试冷启动时的性能.
+* ALL : 所有模式
 
+## @Warmup
+预热配置
+
+在进行测试之前一般都需要进行预热,因为JVM中JIT机制的存在,当函数被多次调用之后,JVM会尝试将其编译为机器码运行从而提高运行速度
+
+* iterations : 预热的次数
+* time : 每次预热的时间
+* timeUnit : 时间的单位 , 默认为秒
+* batchSize : 批处理大小,每次调用几次方法
 
