@@ -52,3 +52,56 @@ JMH即Java Microbenchmark Harness , 是对代码进行微基准测试的一套AP
 * timeUnit : 时间的单位 , 默认为秒
 * batchSize : 批处理大小,每次调用几次方法
 
+
+## @Measurement
+量度配置
+
+配置一些基本的测试参数
+
+* iterations : 进行测试的轮次
+* time : 每轮测试的时长
+* timeUnit : 时长单位
+
+## @Threads
+
+每个进程中的测试现成,可以用在类或者方法上,一般选择为CPU*2 如果配置了Threads.max 则使用Runtime.getRuntime().availableProcessors()个线程
+
+## @Fork
+
+进行fork的次数,可以用在来或者方法上,如果fork数量是2的话,则Jmh会fork出两个进程进行测试
+
+## @OutputTimeUnit
+
+基准测试的时间类型,一般选择秒,毫秒,微秒
+
+## @Benchmark
+
+方法级别注释,表示该方法是需要进行benchmark的对象,用法和Junit的@Test类似
+
+## @Param
+
+参数级别注释,@Param可以用来指定某项参数的多种情况,特别适合用来测试一个函数在不同参数输入的情况下的性能.
+
+## @Setup
+
+方法级别注解,这个注解的作用就是在进行测试之前进行一些准备工作,比如对数据进行一些初始化之类的
+
+## @TearDowm
+
+方法级别注解,这个注解的作用就是在测试之后进行一些结束工作,比如关闭线程池,数据库链接等,主要用于资源的回收
+
+>@SetUp主要实现测试之前的初始化工作,只能用在方法上,用法和Junit一样,使用该注解的时候必须定义@State注解
+
+>@TearDown 主要实现测试完成之后的垃圾回收工作,只能用在方法上,用法和Junit一样,使用该注解必须定义@State注解
+
+这两个注解都有一个Level的枚举值,有三个值,默认是Trial
+
+* Trial : 在每次BenchMark的前后执行
+* Iteration : 在每次BenchMark的iteration的前后执行
+* Invocation : 每次调用BenchMark标记的方法前后都会执行
+
+## @State
+
+当使用@SetUp参数的时候,必须在类上加上这个参数,不然会提示无法运行
+
+state用于声明某个类是一个"状态",然后接收一个Scope参数用来表示该状态的共享范围.因为BenchMark会需要一些表示状态的类,JMH
