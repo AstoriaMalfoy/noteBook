@@ -39,26 +39,27 @@ Controller:(控制器) 该层主要是针对VO，QO到DTO之间的数据转换�
 # SpringMVC 具体案例实现
 
 * dirPath
->    |_[d]SpringMVC_part1
->      |_[f]pom.xml
->      |_[f]SpringMVC_part1.iml
->      |_[d]src
->        |_[d]main
->          |_[d]java
->            |_[d]cn
->              |_[d]net
->                |_[d]astoria
->                  |_[d]controller
->                    |_[f]FirstPageController.java
->          |_[d]resources
->            |_[f]SpringMVC.xml
->          |_[d]test
->          |_[d]webapp
->            |_[f]index.jsp
->            |_[d]WEB-INF
->              |_[d]page
->                |_[f]success.jsp
->              |_[f]web.xml
+>    |_[d]SpringMVC_part1</br>
+>      |_[f]pom.xml</br>
+>      |_[f]SpringMVC_part1.iml</br>
+>      |_[d]src</br>
+>        |_[d]main</br>
+>          |_[d]java</br>
+>            |_[d]cn</br>
+>              |_[d]net</br>
+>                |_[d]astoria</br>
+>                  |_[d]controller</br>
+>                    |_[f]FirstPageController.java</br>
+>          |_[d]resources</br>
+>            |_[f]SpringMVC.xml</br>
+>          |_[d]test</br>
+>          |_[d]webapp</br>
+>            |_[f]index.jsp</br>
+>            |_[d]WEB-INF</br>
+>              |_[d]page</br>
+>                |_[f]success.jsp</br>
+>              |_[f]web.xml</br>
+
 * 首先使用maven骨架创建Webapp项目，随后补全下项目路径。
 * 导入依赖jar包
   ```xml
