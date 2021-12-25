@@ -267,21 +267,8 @@ Service端项目启动过程中调用链关系如下：
 
 当请求打入时候，首先回去调用DispatcherServlet，DispatcherServlet接收到请求之后，会按照路径调用对应的servlet执行请求内容，当请求内容执行完成之后，Servlet返回结果给DispatcherServlet,Dispatcher在去请求视图解析器，视图解析器随后拼接page对象返回给DIspahtcherServlet，DispatcherServlet最后将页面返回。
 
-![spring-mvc请求打入是流程.png](C:\Users\astoria\Documents\noteBook\noteBook\imageDir\drawIO\spring-mvc请求打入是流程.png)
+![spring-mvc请求打入是流程.png](../../imageDir/drawIO/spring-mvc请求打入是流程.png)
 
 ### 请求打入完整流程
 
-```sequence
-用户 --> 前端控制器 : Request请求
-前端控制器 --> 处理器映射器 : 请求查找Handler
-处器理映射器 --> 前端控制器 : 返回一个执行链
-前端控制器 --> 处理器适配器 : 执行handler
-处理器适配器-->Handler处理器 : 执行
-Handler处理器-->处理器适配器 : 返回ModuleAndView
-处理器适配器-->前端控制器 : 返回ModuleAndView
-前端控制器-->视图解析器 : 请求进行视图解析
-视图解析器-->前端控制器 : 返回view
-前端控制器-->视图 : 渲染视图，将模型填充到request中
-视图->>前端控制器 : 返回视图
-前端控制器 --> 用户 : 返回请求
-```
+![spring-mvc控制器控制器执行流程.png](https://raw.githubusercontent.com/AstoriaMalfoy/ImageRepository/main/2021/12/25-15-09-39-spring-mvc%E6%8E%A7%E5%88%B6%E5%99%A8%E6%8E%A7%E5%88%B6%E5%99%A8%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B.png)
