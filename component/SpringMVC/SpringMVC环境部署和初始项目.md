@@ -35,7 +35,7 @@ Module:(模型) 模型通常是针对于实体的封装，也就是数据模型�
 View:(视图) 通常指的是JSP和html.一般就是用于数据展示。
 Controller:(控制器) 该层主要是针对VO，QO到DTO之间的数据转换。大部分作为服务端的参数校验，特别要注意，该层不应用来处理业务逻辑，主要的业务逻辑应该下放到业务层来执行，不应该使用控制器来执行业务信息。
 
-# SpringMVC 具体案例实现
+## SpringMVC 具体案例实现
 
 * 首先使用maven骨架创建Webapp项目，随后补全下项目路径。
 
@@ -251,4 +251,37 @@ public class FirstPageController {
 </project>
 ```
 
-<img src="../../imageDir/drawIO/spring-mvc启动时调用链.png" title="" alt="spring-mvc启动时调用链.png" width="660">
+## Spring-MVC项目启动流程总结
+
+### 项目启动流程
+
+Service端项目启动过程中调用链关系如下：
+
+* 首先tomcat服务器会加载项目下的web.xml文件，在web.xml文件中配置了DispatcherServlet视图解析器，则会加载Dispatcher视图解析器。
+
+* 在DispatcherServlet视图解析器中配置了SpringMVC.xml文件路径，会自动加载SpringMVC.xml路径下的文件，并且读取SpringMVC.xml中的配置信息
+
+<img src="../../imageDir/drawIO/spring-mvc启动时调用链.png" title="" alt="spring-mvc启动时调用链.png" >
+
+### 请求打入流程
+
+当请求打入时候，首先回去调用DispatcherServlet，DispatcherServlet接收到请求之后，会按照路径调用对应的servlet执行请求内容，当请求内容执行完成之后，Servlet返回结果给DispatcherServlet,Dispatcher在去请求视图解析器，视图解析器随后拼接page对象返回给DIspahtcherServlet，DispatcherServlet最后将页面返回。
+
+![spring-mvc请求打入是流程.png](C:\Users\astoria\Documents\noteBook\noteBook\imageDir\drawIO\spring-mvc请求打入是流程.png)
+
+### 请求打入完整流程
+
+```sequence
+用户 --> 前端控制器 : Request请求
+前端控制器 --> 处理器映射器 : 请求查找Handler
+处器理映射器 --> 前端控制器 : 返回一个执行链
+前端控制器 --> 处理器适配器 : 执行handler
+处理器适配器-->Handler处理器 : 执行
+Handler处理器-->处理器适配器 : 返回ModuleAndView
+处理器适配器-->前端控制器 : 返回ModuleAndView
+前端控制器-->视图解析器 : 请求进行视图解析
+视图解析器-->前端控制器 : 返回view
+前端控制器-->视图 : 渲染视图，将模型填充到request中
+视图->>前端控制器 : 返回视图
+前端控制器 --> 用户 : 返回请求
+```
