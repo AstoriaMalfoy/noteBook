@@ -272,3 +272,53 @@ Service端项目启动过程中调用链关系如下：
 ### 请求打入完整流程
 
 ![spring-mvc控制器控制器执行流程.png](https://raw.githubusercontent.com/AstoriaMalfoy/ImageRepository/main/2021/12/25-15-09-39-spring-mvc%E6%8E%A7%E5%88%B6%E5%99%A8%E6%8E%A7%E5%88%B6%E5%99%A8%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B.png)
+
+### 前端控制器：`DispatcherServlet`
+
+> 用户请求到达前端控制器，相当于MVC模式中的C，dispatcherServlet是整个流程控制的中心，由他调用其他组件处理用户的请求，dispatcherServlet的存在降低了组件之间的耦合
+
+### 处理器映射器 ：`HandlerMapping`
+
+> HandlerMapping负责根据用户请求找到Handler即处理器，SpringMVC提供了不同的映射器实现不同的映射方式，例如：配置文件方式，接口实现方式，注解方式等。
+
+### 处理器 ：`Handler`
+
+> 处理器就是业务中需要编写的具体业务的控制器。由DispatcherServlet将用户的请求转发到Handler。由Hanlder对具体的用户请求进行处理。
+
+### 处理器适配器 ： `HandlerAdapter`
+
+> 通过HandlerAdapter对处理器进行执行，这是适配器模式的应用，通过扩展适配器可以对更多类型的处理器进行执行。
+
+### 视图解析器 ： `View Resoler`
+
+> View Resoler负责将处理结果生成View视图，ViewResoler首先根据逻辑视图名解析成物理的视图名，即具体的页面地址，再生成View对象，最后对View进行渲染将处理结果通过页面展示给用户。
+
+### 视图 ： `View`
+
+> SpringMVC框架提供了很多View视图的支持，包括jstlView ， freemarkerView ， pdfView等，
+> 
+> 一般情况下需要通过页面标签或者页面模板技术将模型数据通过页面展示给用户，需要根据具体的业务需求开发具体的页面
+
+### `<mvc:annotation-driven>`说明
+
+> 在SpringMVC的各个组件中，处理器映射器，处理器适配器，视图解析器称为SpringMVC的三大组件。
+> 
+> 使用\<mvc:annotation-driven>自动加载`RequestMappingHanlerMapping`（处理器映射器）和`RequestMappingHandlerAdapter`（处理器适配器）,可以在SpringMVC.xml文件中使用`<mvc:annotation-driven>`注解替代映射器和适配器的配置。
+
+## `RequestMapping`注解的作用
+
+> 用于建立请求URL和处理方法之前的映射关系，
+> 
+> 可以作用于方法或者类，接口上面，在请求的时候，会默认拼接类上的`RequestMapping`的Value值和方法上的`RequestMapping`的Value值。
+> 
+> 属性：
+> 
+> * value  : 用于指定访问的URL，该属性和path完全一样
+> 
+> * path : 用于指定访问的URL，该属性和value完全一样。
+> 
+> * method : 用于指定请求的方法
+> 
+> * params : 用于限制请求的参数
+> 
+> * headers : 用于限制请求的消息头
