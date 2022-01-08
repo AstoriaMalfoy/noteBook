@@ -93,8 +93,6 @@ JMH即Java Microbenchmark Harness , 是对代码进行微基准测试的一套AP
 
 ## @TearDown
 
-
-
 方法级别注解,这个注解的作用就是在测试之后进行一些结束工作,比如关闭线程池,数据库链接等,主要用于资源的回收
 
 > @SetUp主要实现测试之前的初始化工作,只能用在方法上,用法和Junit一样,使用该注解的时候必须定义@State注解
@@ -120,21 +118,23 @@ state用于声明某个类是一个"状态",然后接收一个Scope参数用来�
 > BenchMark : 该状态在所有线程之间共享
 
 ## @Group
+
 结合@Branchmark一起使用,把多个基准方法归为一类,只能用在方法上,同一个组中的所有测试设置相同的名称
 
-##@GroupThread
+## @GroupThread
+
 定义了多少个线程参在组中运行基准方法,只能用在方法上
 
-##@OutPutTimeUnit
+## @OutPutTimeUnit
+
 基准测试结果的时间类型,可以用在类或者方法上
 
-##@CompilerControl
+## @CompilerControl
+
 该注解可以控制方法编译的行为,可以用在类或者方法或者构造函数上,有六种模式,而我们只关心三种模式
 
-*CompilerControl.Mode.INLINE : 强制使用内联
-*CompilerControl.Mode.DONT_INLINE : 禁止使用内联
-*CompilerCOntrol.Mode.EXCLUDE : 禁止编译方法
+* CompilerControl.Mode.INLINE : 强制使用内联
 
+* CompilerControl.Mode.DONT_INLINE : 禁止使用内
 
-
-
+* CompilerCOntrol.Mode.EXCLUDE : 禁止编译方法
