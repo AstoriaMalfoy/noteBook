@@ -15,3 +15,6 @@ RabbitMQ整体上来说是一个生产者-消费者模型,主要负责接收,存
 **$\textcolor{blue}{Broker:消息中间件的服务节点}$**
 
 对于RabbitMQ来说,一个RabbitMQ Broker可以简单的看做一个RabbitMQ服务节点.
+
+
+
